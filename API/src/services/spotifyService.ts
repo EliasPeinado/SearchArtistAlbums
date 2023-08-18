@@ -3,8 +3,8 @@ import { AlbumType, ArtistType, TrackType } from '../types';
 import { inserAny as insertRegister } from '../repositories/registerRepository';
 
 
-const SPOTIFY_API_URL = 'https://api.spotify.com/v1';
-const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token';
+const SPOTIFY_API_URL = process.env.SPOTIFY_API_URL
+const SPOTIFY_TOKEN_URL = process.env.SPOTIFY_TOKEN_URL
 
 let cachedToken: string | null = null;
 
@@ -16,19 +16,22 @@ const getToken = async () => {
     try {
         const credentials = `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`;
         const encodedCredentials = Buffer.from(credentials).toString('base64');
+        if (SPOTIFY_TOKEN_URL) {
+            const response = await axios.post(SPOTIFY_TOKEN_URL, 'grant_type=client_credentials', {
+                headers: {
+                    'Authorization': `Basic ${encodedCredentials}`,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            });
 
-        const response = await axios.post(SPOTIFY_TOKEN_URL, 'grant_type=client_credentials', {
-            headers: {
-                'Authorization': `Basic ${encodedCredentials}`,
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        });
+            cachedToken = response.data.access_token;
 
-        cachedToken = response.data.access_token;
+            setTimeout(() => { cachedToken = null; }, (response.data.expires_in - 60) * 1000);
 
-        setTimeout(() => { cachedToken = null; }, (response.data.expires_in - 60) * 1000);
-
-        return cachedToken;
+            return cachedToken;
+        }
+        else
+            return null
     } catch (error) {
         console.error('Error obteniendo token de Spotify:', error);
         throw new Error('No se pudo obtener el token de Spotify.');
