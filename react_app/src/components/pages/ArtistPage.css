@@ -1,0 +1,94 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Estilos para las estrellas */
+.star {
+    font-size: 1.5rem;
+    color: #ffd700;
+    /* Color dorado para las estrellas */
+    transition: color 0.3s;
+    /* Transición suave */
+}
+
+.star:not(:last-child) {
+    margin-right: 4px;
+    /* Espacio entre estrellas */
+}
+
+/* Efecto hover para las estrellas */
+.star:hover {
+    color: #ffec40;
+}
+
+/* Efecto hover para los botones */
+Button {
+    transition: background-color 0.3s, transform 0.3s;
+    /* Transición suave */
+}
+
+Button:hover {
+    transform: scale(1.05);
+    /* Efecto de escalado al pasar el ratón por encima */
+}
+
+
+
+/* Efecto de transición suave para los componentes */
+.card,
+.jumbotron,
+.star,
+Button,
+.track-player audio {
+    transition: all 0.3s;
+}
+
+/* Efecto hover para las tarjetas */
+.card:hover {
+    transform: translateY(-5px);
+    /* Efecto de levitación al pasar el ratón por encima */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+    /* Sombra más pronunciada */
+}
+
+.track-list-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1.5s ease-in-out;
+}
+
+.track-list-wrapper.open {
+    max-height: 500px;
+}
+
+.track-list-content {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.track-list-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.track-list-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.track-list-content::-webkit-scrollbar-thumb {
+    background: #7f99a1;
+    border-radius: 10px;
+}
+
+.track-list-content::-webkit-scrollbar-thumb:hover {
+    background: #50646a;
+}
+
+
+.track-list-header {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 2rem;
+    padding-top: 0.5rem;
+}
